@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'io.github.earthchen'
+version '1.0-SNAPSHOT'
+
+allprojects {
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
