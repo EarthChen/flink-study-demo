@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'io.github.earthchen'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-walkthrough-common
+    implementation group: 'org.apache.flink', name: 'flink-walkthrough-common_2.12', version: '1.12.0'
+    implementation("org.apache.flink:flink-java:1.12.0")
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-streaming-java
+    implementation group: 'org.apache.flink', name: 'flink-streaming-java_2.12', version: '1.12.0'
+    implementation("ch.qos.logback:logback-core:1.2.3")
+    implementation("ch.qos.logback:logback-classic:1.2.3")
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-clients
+    implementation group: 'org.apache.flink', name: 'flink-clients_2.12', version: '1.12.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-runtime-web
+    implementation group: 'org.apache.flink', name: 'flink-runtime-web_2.12', version: '1.12.0'
+
+}
+
+test {
+    useJUnitPlatform()
+}
