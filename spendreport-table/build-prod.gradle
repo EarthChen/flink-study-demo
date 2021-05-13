@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+ext {
+    prod = false
+}
+
+group 'io.github.earthchen'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
+    maven { url 'https://jitpack.io' }
+    mavenCentral()
+}
+
+def conditionDependencies = [
+        "org.apache.flink:flink-table-api-java:${flinkVersion}",
+        "org.apache.flink:flink-table-api-java-bridge_${scalaBinaryVersion}:${flinkVersion}",
+        "org.apache.flink:flink-streaming-scala_${scalaBinaryVersion}:${flinkVersion}",
+        "org.apache.flink:flink-table-planner-blink_${scalaBinaryVersion}:${flinkVersion}",
+        "org.apache.flink:flink-clients_${scalaBinaryVersion}:${flinkVersion}",
+        "ch.qos.logback:logback-core:1.2.3",
+        "ch.qos.logback:logback-classic:1.2.3"
+]
+
+
+
+dependencies {
+//    shadow localGroovy()
+//    shadow gradleApi()
+    print("${prod}")
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
+// https://mvnrepository.com/artifact/org.apache.flink/flink-connector-jdbc
+    implementation group: 'org.apache.flink', name: 'flink-connector-jdbc_2.11', version: '1.12.0'
+// https://mvnrepository.com/artifact/org.apache.flink/flink-sql-connector-kafka
+    implementation group: 'org.apache.flink', name: 'flink-sql-connector-kafka_2.11', version: '1.12.0'
+    // https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka
+    implementation group: 'org.apache.flink', name: 'flink-connector-kafka_2.11', version: '1.12.0'
+
+// https://mvnrepository.com/artifact/org.apache.flink/flink-csv
+    implementation group: 'org.apache.flink', name: 'flink-csv', version: '1.12.0'
+    if (prod) {
+        compileOnly(conditionDependencies)
+    } else {
+        implementation(conditionDependencies)
+    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation("org.hamcrest:hamcrest-all:1.3")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    prod = true;
+    manifest {
+        attributes "Main-Class": "io.github.earthchen.spendreport.table.SpendReport"
+    }
+
+    dependencies {
+        compileOnly(conditionDependencies)
+    }
+}
+
+//task relocateShadowJar(type: ConfigureShadowRelocation) {
+//    prod = true
+//    target = tasks.shadowJar
+//}
+//
+//tasks.shadowJar.dependsOn tasks.relocateShadowJar
+//
+configurations.compile.dependencies.remove dependencies.gradleApi()
+
+shadowJar {
+//    configurations = [project.configurations.shadow]
+//    compile.extendsFrom provided
+//    provided.extendsFrom shadow
+    dependencies {
+        for (cd in conditionDependencies) {
+            exclude(dependency(cd))
+        }
+        exclude("org.apache.flink:force-shading")
+    }
+    mergeServiceFiles()
+}
+
+
