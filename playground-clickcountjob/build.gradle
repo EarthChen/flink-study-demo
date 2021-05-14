@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+group 'io.github.earthchen'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def conditionDependencies = [
+        "org.apache.flink:flink-streaming-java_${scalaBinaryVersion}:${flinkVersion}",
+        "org.apache.flink:flink-clients_${scalaBinaryVersion}:${flinkVersion}",
+        "ch.qos.logback:logback-core:1.2.3",
+        "ch.qos.logback:logback-classic:1.2.3"
+]
+
+
+def prod = System.getProperty("prod") ?: false;
+
+dependencies {
+    print("----当前prod=${prod}-------")
+    implementation group: 'org.apache.flink', name: 'flink-connector-kafka_2.11', version: '1.12.0'
+    if (prod) {
+        compileOnly(conditionDependencies)
+    } else {
+        implementation(conditionDependencies)
+    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+jar {
+    manifest {
+        attributes "Main-Class": "io.github.earthchen.playground.ClickEventCount"
+    }
+}
+
+configurations.compile.dependencies.remove dependencies.gradleApi()
+
+shadowJar {
+    mergeServiceFiles()
+}
+

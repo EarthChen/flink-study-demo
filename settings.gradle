@@ -3,4 +3,5 @@ include 'word-count'
 include 'spendreport'
 include 'spendreport-table'
 include 'data-generator-kafka'
+include 'playground-clickcountjob'
 
