@@ -1,4 +1,6 @@
 rootProject.name = 'flink-study-demo'
 include 'word-count'
 include 'spendreport'
+include 'spendreport-table'
+include 'data-generator-kafka'
 
