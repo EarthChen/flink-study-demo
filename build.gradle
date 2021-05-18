@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'java-library'
 }
 
 ext {
@@ -12,6 +13,10 @@ group 'io.github.earthchen'
 version '1.0-SNAPSHOT'
 
 allprojects {
+
+//    apply plugins: 'java'
+//    apply plugins: 'java-library'
+
     repositories {
         mavenLocal()
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
