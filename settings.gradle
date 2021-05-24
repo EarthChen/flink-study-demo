@@ -6,4 +6,5 @@ include 'data-generator-kafka'
 include 'playground-clickcountjob'
 include 'ride-cleaning'
 include 'ride-common'
+include 'hourly-tips'
 
