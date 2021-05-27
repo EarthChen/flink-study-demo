@@ -1,5 +1,7 @@
 {
   "user_id": 111,
   "item_id": 111,
-  "behavior": "1112222"
+  "behavior": {
+    "aaa": "aaaaa"
+  }
 }

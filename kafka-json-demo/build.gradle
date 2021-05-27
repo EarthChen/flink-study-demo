@@ -19,7 +19,7 @@ def conditionDependencies = [
         "org.apache.flink:flink-table:${flinkVersion}",
         "org.apache.flink:flink-table-api-java:${flinkVersion}",
         "org.apache.flink:flink-table-api-java-bridge_${scalaBinaryVersion}:${flinkVersion}",
-        "org.apache.flink:flink-streaming-scala_${scalaBinaryVersion}:${flinkVersion}",
+//        "org.apache.flink:flink-streaming-scala_${scalaBinaryVersion}:${flinkVersion}",
         "org.apache.flink:flink-table-planner-blink_${scalaBinaryVersion}:${flinkVersion}",
         "org.apache.flink:flink-table-planner_${scalaBinaryVersion}:${flinkVersion}",
         "org.apache.flink:flink-clients_${scalaBinaryVersion}:${flinkVersion}",
